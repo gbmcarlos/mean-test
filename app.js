@@ -4,8 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
-var routing = require('./config/routing');
+var routing = require('./config/routes');
 
 var app = express();
 
@@ -22,6 +23,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routing);
+
+fs.readdirSync('./src/Controllers').forEach(function (file) {
+  if(file.substr(-3) == '.js') {
+    route = require('./src/Controllers/' + file);
+    route.controller(app);
+  }
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
