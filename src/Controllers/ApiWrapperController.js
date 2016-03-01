@@ -7,8 +7,7 @@ module.exports.controller = function(app) {
      */
     app.get('/api-wrapper', function(req, res) {
 
-        var response = wrapperService.get(req);
-        res.json(response);
+        wrapperService.get(req, res);
 
     });
 
