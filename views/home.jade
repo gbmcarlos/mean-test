@@ -1,8 +1,8 @@
 extends layout
 
 block content
-    .container-fluid(ng-app='Comparator')
-        .row(ng-controller='ParametersController')
+    .container-fluid(ng-app='Comparator', ng-controller='ParametersController')
+        .row
             .col-md-3
                 .panel.panel-default
                     .panel-heading Quick filters
@@ -47,7 +47,16 @@ block content
                                             div(ng-repeat='result in results')
                                                 .panel.panel-default
                                                     .panel-body
-                                                        {{result.name}}
+                                                        .container-fluid
+                                                            .row
+                                                                .col-xs-6
+                                                                    a(target='_blank', ng-href='{{result.productHomeUrl}}')
+                                                                        img(ng-src='{{result.provider.imageUrl}}')
+                                                                .col-xs-6
+                                                                    div
+                                                                        a(target='_blank', ng-href='{{result.productHomeUrl}}')
+                                                                            {{result.provider.descriptions.name}} {{result.descriptions.name}}
+                                                                            p {{result.descriptions.benefits|shorten:110}}
 
 block scripts
 
