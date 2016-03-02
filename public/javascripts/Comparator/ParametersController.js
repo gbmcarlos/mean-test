@@ -23,9 +23,9 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
     $scope.addQuickFilter = function(value, state) {
 
         if (state) {
-            requestData.filter.quickFilter.push(value);
+            $scope.requestData.filter.quickFilter.push(value);
         } else {
-            requestData.filter.quickFilter.splice(requestData.filter.quickFilter.indexOf(value), 1);
+            $scope.requestData.filter.quickFilter.splice(requestData.filter.quickFilter.indexOf(value), 1);
         }
 
     };
@@ -34,9 +34,9 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
 
 
         if (state) {
-            requestData.filter.providers.push(value);
+            $scope.requestData.filter.providers.push(value);
         } else {
-            requestData.filter.providers.splice(requestData.filter.providers.indexOf(value), 1);
+            $scope.requestData.filter.providers.splice(requestData.filter.providers.indexOf(value), 1);
         }
 
     };
