@@ -8,6 +8,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
         $scope.getResults();
     });
 
+    $scope.loading = true;
     $scope.requestData = {
         apiCountry: 'ae',
         apiLanguage: 'en',
@@ -24,7 +25,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
         },
         limit: 25,
         order: false,
-        pageNum: 0,
+        pageNum: 1,
         skip: 0
     };
 
@@ -48,11 +49,11 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             delete params.filter['quickFilter'];
         }
 
-        console.log($scope.requestData);
-
         //if (params.filter.providers.length < 1) {
         //    delete params.filter.providers;
         //}
+
+        $scope.loading = true;
 
         $http({
             method: 'GET',
@@ -65,7 +66,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
                 var data = JSON.parse(JSON.parse(response.data)).data;
                 $scope.count = data.count;
                 $scope.results = data.data;
-
+                $scope.loading = false;
             } else {
                 (function() {
                     console.log('ERROR');
@@ -102,6 +103,18 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
         $scope.requestData.sort = $scope.sorting[index].value;
 
         $scope.getResults();
+
+    };
+
+    $scope.page = function(index) {
+
+        if ($scope.requestData.pageNum != index+1) {
+
+            $scope.requestData.pageNum = index+1;
+            $scope.requestData.skip = index * $scope.requestData.limit;
+            $scope.getResults();
+
+        }
 
     };
 
@@ -216,5 +229,9 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             value: 'cinema'
         }
     ];
+
+    $scope.pagesNum = function() {
+        return new Array($scope.count > 0 ? Math.floor($scope.count / $scope.requestData.limit) + 1 : 0);
+    }
 
 }]);

@@ -10,8 +10,6 @@ module.exports = {
             path: '/api/product'
         };
 
-        console.log(options.host + options.path + '?' + querystring.stringify(req.query));
-
         request(options.host + options.path + '?' + querystring.stringify(req.query), function (error, response, body) {
             if (!error && response.statusCode == 200) {
                 res.json(body);
