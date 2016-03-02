@@ -1,5 +1,55 @@
 extends layout
 
 block content
-  h1= title
-  p data: #{data}
+    .container-fluid
+        .row
+            .col-md-6.col-md-offset-3
+                .panel.panel-default
+                    .panel-heading Search parameters
+                    .panel-body
+                        .container-fluid
+                            .row
+                            form
+                                .col-md-6
+                                    label Credit card type
+                                    select.form-control
+                                        option 1
+                                        option 2
+                                        option 3
+                                    br
+                                    label Monthly salary
+                                        input.form-control
+                                .col-md-6
+                                    label Email address
+                                    input.form-control
+        .row
+            .col-md-3
+                .container-fluid
+                    .row
+                        .panel.panel-default
+                            .panel-heading Quick filters
+                            .panel-body
+                                .container
+                                    .row
+                                        .col-md-12
+                                            p dsf
+            .col-md-6
+                .panel.panel-default
+                    .panel-heading Results
+                    .panel-body
+                        .container
+                            .row
+                                .col-md-12
+                                    p asdf
+                                    p sf
+
+            .col-md-3
+                .container-fluid
+                    .row
+                        .panel.panel-default
+                            .panel-heading Providers
+                            .panel-body
+                                .container
+                                    .row
+                                        .col-md-12
+                                            p dsf
