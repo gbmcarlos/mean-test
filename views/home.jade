@@ -34,7 +34,7 @@ block content
                                     input.form-control(ng-model='emailAddress', ng-change='requestData.filter.email_address = emailAddress')
                                     br
                                     button.btn.btn-primary.btn-lg(ng-click='getResults()') Search
-        .row(ng-controller='ResultsController')
+        .row
             .col-md-6.col-md-offset-3
                 .container-fluid
                     .row
@@ -53,7 +53,6 @@ block scripts
 
     script(src='javascripts/Comparator/ComparatorModule.js')
     script(src='javascripts/Comparator/ParametersController.js')
-    script(src='javascripts/Comparator/ResultsController.js')
 
 //            .col-md-3
 //                .container-fluid
