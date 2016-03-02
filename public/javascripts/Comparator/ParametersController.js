@@ -54,7 +54,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
 
                 var data = JSON.parse(JSON.parse(response.data)).data;
                 $scope.count = data.count;
-                console.log(data.data);
+                $scope.results = data.data;
 
             } else {
                 (function() {
@@ -62,12 +62,6 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
                 })()
             }
 
-            //(function(response) {
-            //
-            //    var results = JSON.parse(response);
-                //console.log(response);
-            //
-            //})(response)
         });
 
     };
