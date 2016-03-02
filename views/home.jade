@@ -1,0 +1,91 @@
+extends layout
+
+block content
+    .container-fluid(ng-app='Comparator', ng-controller='ParametersController')
+        .row
+            .col-md-3
+                .panel.panel-default
+                    .panel-heading Quick filters
+                    .panel-body
+                        .container-fluid
+                            .row
+                                .col-md-12
+                                    div(ng-repeat='quickFilter in quickFilters')
+                                        .checkbox
+                                            label
+                                                input(type='checkbox', value='{{quickFilter.value}}', ng-model='quickFilter.state', ng-click='addQuickFilter(quickFilter.value, quickFilter.state)')
+                                                {{quickFilter.label}}
+            .col-md-6
+                .panel.panel-default
+                    .panel-heading Search parameters
+                    .panel-body
+                        .container-fluid
+                            .row
+                                form
+                                    .col-md-6
+                                        label Credit card type
+                                        select.form-control(ng-model='creditCardType', ng-change='requestData.filter.features = creditCardType')
+                                            option(ng-repeat='type in creditCardsTypes', value='{{type.value}}' ng-selected='type.selected') {{type.label}}
+                                        br
+                                        label Monthly salary
+                                            input.form-control(ng-model='userSalary', ng-change='requestData.filter.userSalary = userSalary')
+                                    .col-md-6
+                                        label Email address
+                                        input.form-control(ng-model='emailAddress', ng-change='requestData.filter.email_address = emailAddress')
+                                        br
+                                        button.btn.btn-primary.btn-lg(ng-click='getResults()') Search
+                            .row
+                                .btn-group(ng-repeat='(index,button) in sorting')
+                                    button#sorting.glyphicon.btn.btn-default.dropdown-toggle(ng-class="{'glyphicon-arrow-up': button.order == 1, 'glyphicon-arrow-down': button.order == 2}", ng-click="sort(index)") {{button.label}}
+
+        .row
+            .col-md-6.col-md-offset-3
+                .container-fluid
+                    .row
+                        nav
+                            ul.pagination
+                                li(ng-class='{disabled: requestData.pageNum == $index+1, active: requestData.pageNum != $index+1}', ng-repeat='page in pagesNum()')
+                                    a(href='', ng-click='$parent.page($index)') {{$index+1}}
+                        .panel.panel-default
+                            .panel-heading Results
+                            .panel-body
+                                .container-fluid
+                                    .row
+                                        .col-md-12
+                                            div(ng-show='loading')
+                                                p Loading
+                                            div(ng-show='!results.length && !loading')
+                                                p No results
+                                            div(ng-show='results.length && !loading', ng-repeat='result in results')
+                                                .panel.panel-default
+                                                    .panel-body
+                                                        .container-fluid
+                                                            .row
+                                                                .col-xs-6
+                                                                    a(target='_blank', ng-href='{{result.productHomeUrl}}')
+                                                                        img(ng-src='{{result.provider.imageUrl}}')
+                                                                .col-xs-6
+                                                                    div
+                                                                        a(target='_blank', ng-href='{{result.productHomeUrl}}')
+                                                                            {{result.provider.descriptions.name}} {{result.descriptions.name}}
+                                                                            p {{result.descriptions.benefits|shorten:110}}
+
+block scripts
+
+    script(src='javascripts/Comparator/ComparatorModule.js')
+    script(src='javascripts/Comparator/ParametersController.js')
+
+//            .col-md-3
+//                .container-fluid
+//                    .row
+//                        .panel.panel-default
+//                            .panel-heading Providers
+//                            .panel-body
+//                                .container
+//                                    .row
+//                                        .col-md-12
+//                                            div(ng-repeat='provider in providers')
+//                                                .checkbox
+//                                                    label
+//                                                        input(type='checkbox', value='{{provider.id}}', ng-model='provider.state', ng-click='addProvider(provider.id, provider.state)')
+//                                                        {{provider.label}}
