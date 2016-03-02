@@ -1,9 +1,17 @@
 extends layout
 
 block content
-    .container-fluid
-        .row
-            .col-md-6.col-md-offset-3
+    .container-fluid(ng-app='Comparator')
+        .row(ng-controller='ParametersController')
+            .col-md-3
+                .panel.panel-default
+                    .panel-heading Quick filters
+                    .panel-body
+                        .container-fluid
+                            .row
+                                .col-md-12
+                                    div(ng-repeat='quickFilter in quickFilters') {{quickFilter.label}}
+            .col-md-6
                 .panel.panel-default
                     .panel-heading Search parameters
                     .panel-body
@@ -22,27 +30,6 @@ block content
                                 .col-md-6
                                     label Email address
                                     input.form-control
-        .row
-            .col-md-3
-                .container-fluid
-                    .row
-                        .panel.panel-default
-                            .panel-heading Quick filters
-                            .panel-body
-                                .container
-                                    .row
-                                        .col-md-12
-                                            p dsf
-            .col-md-6
-                .panel.panel-default
-                    .panel-heading Results
-                    .panel-body
-                        .container
-                            .row
-                                .col-md-12
-                                    p asdf
-                                    p sf
-
             .col-md-3
                 .container-fluid
                     .row
@@ -52,4 +39,25 @@ block content
                                 .container
                                     .row
                                         .col-md-12
-                                            p dsf
+                                            div(ng-repeat='provider in providers') {{provider.label}}
+        .row(ng-controller='ResultsController')
+            .col-md-6.col-md-offset-3
+                .container-fluid
+                    .row
+                        .panel.panel-default
+                            .panel-heading Results
+                            .panel-body
+                                .container-fluid
+                                    .row
+                                        .col-md-12
+                                            div(ng-repeat='result in results')
+                                                .panel.panel-default
+                                                    .panel-body
+                                                        {{result.name}}
+
+
+block scripts
+
+    script(src='javascripts/Comparator/ComparatorModule.js')
+    script(src='javascripts/Comparator/ParametersController.js')
+    script(src='javascripts/Comparator/ResultsController.js')
