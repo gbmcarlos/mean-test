@@ -13,7 +13,7 @@ block content
                                     div(ng-repeat='quickFilter in quickFilters')
                                         .checkbox
                                             label
-                                                input(type='checkbox', value='{{quickFilter.value}}')
+                                                input(type='checkbox', value='{{quickFilter.value}}', ng-model='quickFilter.state', ng-click='addQuickFilter(quickFilter.value, quickFilter.state)')
                                                 {{quickFilter.label}}
             .col-md-6
                 .panel.panel-default
@@ -24,16 +24,16 @@ block content
                             form
                                 .col-md-6
                                     label Credit card type
-                                    select.form-control
-                                        option 1
-                                        option 2
-                                        option 3
+                                    select.form-control(ng-model='creditCardType', ng-change='requestData.features = creditCardType')
+                                        option(ng-repeat='type in creditCardsTypes', value='{{type.value}}' ng-selected='type.selected') {{type.label}}
                                     br
                                     label Monthly salary
-                                        input.form-control
+                                        input.form-control(ng-model='userSalary', ng-change='requestData.userSalary = userSalary')
                                 .col-md-6
                                     label Email address
-                                    input.form-control
+                                    input.form-control(ng-model='emailAddress', ng-change='requestData.email_address = emailAddress')
+                                    br
+                                    button.btn.btn-primary.btn-lg(ng-click='getResults()') Search
             .col-md-3
                 .container-fluid
                     .row
@@ -46,7 +46,7 @@ block content
                                             div(ng-repeat='provider in providers')
                                                 .checkbox
                                                     label
-                                                        input(type='checkbox', value='{{provider.value}}')
+                                                        input(type='checkbox', value='{{provider.id}}', ng-model='provider.state', ng-click='addProvider(provider.id, provider.state)')
                                                         {{provider.label}}
 
         .row(ng-controller='ResultsController')
