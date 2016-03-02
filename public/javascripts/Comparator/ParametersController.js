@@ -5,19 +5,21 @@
 ComparatorModule.controller('ParametersController', ['$scope', '$http', function($scope, $http) {
 
     $scope.requestData = {
-        filter: {
-            quickFilter: [],
-            providers: []
-        },
-        email_address: $scope.emailAddress,
-        features: '',
-        userSalary: '',
         apiCountry: 'ae',
         apiLanguage: 'en',
         categoryId: '543857a388de100000ae90bb',
+        categoryName: 'credit-cards',
+        filter: {
+            quickFilter: [],
+            features: 'cashback',
+            category: 'credit-cards',
+            userSalary: '0',
+            email_address: ''
+        },
         limit: 25,
+        order: false,
         pageNum: 0,
-        order: false
+        skip: 0
     };
 
     $scope.addQuickFilter = function(value, state) {
@@ -30,25 +32,42 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
 
     };
 
-    $scope.addProvider = function(value, state) {
+    $scope.getResults = function() {
 
+        var params = JSON.parse(JSON.stringify($scope.requestData));
 
-        if (state) {
-            $scope.requestData.filter.providers.push(value);
-        } else {
-            $scope.requestData.filter.providers.splice(requestData.filter.providers.indexOf(value), 1);
+        if (params.filter.quickFilter.length < 1) {
+            delete params.filter.quickFilter;
         }
 
-    };
-
-    $scope.getResults = function() {
+        //if (params.filter.providers.length < 1) {
+        //    delete params.filter.providers;
+        //}
 
         $http({
             method: 'GET',
             url: '/api-wrapper',
             params: $scope.requestData
-        }).then(function successCallback(response) {
-            console.log(response);
+        }).then(function (response) {
+
+            if (response.status == 200) {
+
+                var data = JSON.parse(JSON.parse(response.data)).data;
+                $scope.count = data.count;
+                console.log(data.data);
+
+            } else {
+                (function() {
+                    console.log('ERROR');
+                })()
+            }
+
+            //(function(response) {
+            //
+            //    var results = JSON.parse(response);
+                //console.log(response);
+            //
+            //})(response)
         });
 
     };
@@ -70,7 +89,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             state: false
         }
     ];
-
+/*
     $scope.providers = [
         {
             label: 'ADCB',
@@ -103,6 +122,7 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             state: false
         }
     ];
+*/
 
     $scope.creditCardsTypes = [
         {
