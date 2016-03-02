@@ -4,6 +4,10 @@
 
 ComparatorModule.controller('ParametersController', ['$scope', '$http', function($scope, $http) {
 
+    angular.element(document).ready(function () {
+        $scope.getResults();
+    });
+
     $scope.requestData = {
         apiCountry: 'ae',
         apiLanguage: 'en',
@@ -14,7 +18,9 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             features: 'cashback',
             category: 'credit-cards',
             userSalary: '0',
-            email_address: ''
+            email_address: '',
+            order: false,
+            sort: ''
         },
         limit: 25,
         order: false,
@@ -27,8 +33,10 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
         if (state) {
             $scope.requestData.filter.quickFilter.push(value);
         } else {
-            $scope.requestData.filter.quickFilter.splice(requestData.filter.quickFilter.indexOf(value), 1);
+            $scope.requestData.filter.quickFilter.splice($scope.requestData.filter.quickFilter.indexOf(value), 1);
         }
+
+        $scope.getResults();
 
     };
 
@@ -37,8 +45,10 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
         var params = JSON.parse(JSON.stringify($scope.requestData));
 
         if (params.filter.quickFilter.length < 1) {
-            delete params.filter.quickFilter;
+            delete params.filter['quickFilter'];
         }
+
+        console.log($scope.requestData);
 
         //if (params.filter.providers.length < 1) {
         //    delete params.filter.providers;
@@ -66,6 +76,35 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
 
     };
 
+    $scope.sort = function(index) {
+
+        if ($scope.sorting[index].order == 1) {
+            $scope.sorting[index].order = 2;
+            $scope.requestData.filter.order = 'DESC';
+            $scope.requestData.order = false;
+        } else if($scope.sorting[index].order == 2) {
+            $scope.sorting[index].order = 1;
+            $scope.requestData.order = true;
+            $scope.requestData.filter.order = 'ASC';
+        } else {
+
+            angular.forEach($scope.sorting, function(value, key) {
+                value.order = 0;
+            });
+
+            $scope.sorting[index].order = 1;
+            $scope.requestData.order = true;
+            $scope.requestData.filter.order = 'ASC';
+
+        }
+
+        $scope.requestData.filter.sort = $scope.sorting[index].value;
+        $scope.requestData.sort = $scope.sorting[index].value;
+
+        $scope.getResults();
+
+    };
+
     $scope.quickFilters = [
         {
             label: 'Shari’ah Compliant Only',
@@ -83,6 +122,30 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             state: false
         }
     ];
+
+    $scope.sorting = [
+        {
+            label: 'Rate',
+            value: 'interestRate',
+            order: 0
+        },
+        {
+            label: 'Min Salary',
+            value: 'creditCard.minSalary',
+            order: 0
+        },
+        {
+            label: 'Annual Fee',
+            value: 'annualFee',
+            order: 0
+        },
+        {
+            label: 'FX Rate',
+            value: 'creditCard.fxRate',
+            order: 0
+        }
+    ];
+
 /*
     $scope.providers = [
         {
