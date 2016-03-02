@@ -1,5 +1,72 @@
 extends layout
 
 block content
-  h1= title
-  p data: #{data}
+    .container-fluid(ng-app='Comparator')
+        .row(ng-controller='ParametersController')
+            .col-md-3
+                .panel.panel-default
+                    .panel-heading Quick filters
+                    .panel-body
+                        .container-fluid
+                            .row
+                                .col-md-12
+                                    div(ng-repeat='quickFilter in quickFilters')
+                                        .checkbox
+                                            label
+                                                input(type='checkbox', value='{{quickFilter.value}}', ng-model='quickFilter.state', ng-click='addQuickFilter(quickFilter.value, quickFilter.state)')
+                                                {{quickFilter.label}}
+            .col-md-6
+                .panel.panel-default
+                    .panel-heading Search parameters
+                    .panel-body
+                        .container-fluid
+                            .row
+                            form
+                                .col-md-6
+                                    label Credit card type
+                                    select.form-control(ng-model='creditCardType', ng-change='requestData.features = creditCardType')
+                                        option(ng-repeat='type in creditCardsTypes', value='{{type.value}}' ng-selected='type.selected') {{type.label}}
+                                    br
+                                    label Monthly salary
+                                        input.form-control(ng-model='userSalary', ng-change='requestData.userSalary = userSalary')
+                                .col-md-6
+                                    label Email address
+                                    input.form-control(ng-model='emailAddress', ng-change='requestData.email_address = emailAddress')
+                                    br
+                                    button.btn.btn-primary.btn-lg(ng-click='getResults()') Search
+            .col-md-3
+                .container-fluid
+                    .row
+                        .panel.panel-default
+                            .panel-heading Providers
+                            .panel-body
+                                .container
+                                    .row
+                                        .col-md-12
+                                            div(ng-repeat='provider in providers')
+                                                .checkbox
+                                                    label
+                                                        input(type='checkbox', value='{{provider.id}}', ng-model='provider.state', ng-click='addProvider(provider.id, provider.state)')
+                                                        {{provider.label}}
+
+        .row(ng-controller='ResultsController')
+            .col-md-6.col-md-offset-3
+                .container-fluid
+                    .row
+                        .panel.panel-default
+                            .panel-heading Results
+                            .panel-body
+                                .container-fluid
+                                    .row
+                                        .col-md-12
+                                            div(ng-repeat='result in results')
+                                                .panel.panel-default
+                                                    .panel-body
+                                                        {{result.name}}
+
+
+block scripts
+
+    script(src='javascripts/Comparator/ComparatorModule.js')
+    script(src='javascripts/Comparator/ParametersController.js')
+    script(src='javascripts/Comparator/ResultsController.js')
