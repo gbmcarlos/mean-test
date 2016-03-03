@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 
-var StatsSchema = new mongoose.Schema({
+var Stat = mongoose.model('Stat', {
 
     timestamp: Date,
     category: String,
@@ -11,18 +11,17 @@ var StatsSchema = new mongoose.Schema({
         filter: String,
         direction: String
     },
+    resultsNumber: Number,
     pageNum: Number,
     quickFilters: [String],
     userSalary: Number,
     email_address: String
 
-});
-
-mongoose.model('Stat', StatsSchema);
+}, 'statistics');
 
 module.exports = {
 
-    newStat: function(query, results) {
+    newStat: function(query, body) {
 
         var components = query.split('&');
         var _components = {};
@@ -32,7 +31,9 @@ module.exports = {
         }
         _components.filter = JSON.parse(_components.filter);
 
-        var stat = {
+        var stat = new Stat({
+            timestamp: Date.now(),
+            resultsNumber: JSON.parse(body).data.count,
             category: _components.categoryName,
             sort: {
                 filter: _components.filter.sort,
@@ -42,17 +43,13 @@ module.exports = {
             quickFilters: _components.filter.quickFilter,
             userSalary: _components.filter.userSalary,
             emailAddress: _components.filter.email_address
-        };
+        });
 
-        //mongoose.model('Stat').create({
-
-        //}, function (err, stat) {
-        //    if (err) {
-        //        console.log("ERROR");
-        //    } else {
-        //        console.log('SUCCESS');
-        //    }
-        //});
+        stat.save(function (err) {
+            if (err) {
+                console.log("ERROR");
+            }
+        });
 
     }
 

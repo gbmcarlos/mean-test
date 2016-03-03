@@ -15,7 +15,7 @@ module.exports = {
         request(options.host + options.path + '?' + options.query, function (error, response, body) {
             if (!error && response.statusCode == 200) {
 
-                Stats.newStat(options.query);
+                Stats.newStat(options.query, body);
 
                 res.json(body);
             }
