@@ -104,82 +104,9 @@ ComparatorModule.controller('ComparatorController', ['$scope', '$http', 'Compara
 
     };
 
-    $scope.quickFilters = [
-        {
-            label: 'Shari’ah Compliant Only',
-            value: 'islamic_finance',
-            state: false
-        },
-        {
-            label: 'No Annual Fee',
-            value: 'monthly_fee',
-            state: false
-        },
-        {
-            label: 'Offered For Non-Listed Companies',
-            value: 'cnl_product',
-            state: false
-        }
-    ];
-
-    $scope.sorting = [
-        {
-            label: 'Rate',
-            value: 'interestRate',
-            order: 0
-        },
-        {
-            label: 'Min Salary',
-            value: 'creditCard.minSalary',
-            order: 0
-        },
-        {
-            label: 'Annual Fee',
-            value: 'annualFee',
-            order: 0
-        },
-        {
-            label: 'FX Rate',
-            value: 'creditCard.fxRate',
-            order: 0
-        }
-    ];
-
-    $scope.creditCardsTypes = [
-        {
-            label: 'Select a feature',
-            value: '',
-            selected: true
-        },
-        {
-            label: 'Cashback',
-            value: 'cashback'
-        },
-        {
-            label: 'Balance Transfer',
-            value: 'balance-transfer'
-        },
-        {
-            label: 'Air Miles',
-            value: 'airlines'
-        },
-        {
-            label: 'Dining Privileges',
-            value: 'dining'
-        },
-        {
-            label: 'Golf Privileges',
-            value: 'golf'
-        },
-        {
-            label: 'Valet Parking',
-            value: 'valet'
-        },
-        {
-            label: 'Cinema Tickets',
-            value: 'cinema'
-        }
-    ];
+    $scope.quickFilters = ComparatorService.get('quickFilters');
+    $scope.sorting = ComparatorService.get('sorting');
+    $scope.creditCardsTypes = ComparatorService.get('creditCardsTypes');
 
     $scope.pagesNum = function() {
         return new Array($scope.count > 0 ? Math.floor($scope.count / $scope.requestData.limit) + 1 : 0);
