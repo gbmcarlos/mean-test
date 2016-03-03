@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .container-fluid(ng-app='Comparator', ng-controller='ParametersController')
+    .container-fluid(ng-app='Comparator', ng-controller='ComparatorController')
         .row
             .col-md-3
                 .panel.panel-default
@@ -73,19 +73,5 @@ block content
 block scripts
 
     script(src='javascripts/Comparator/ComparatorModule.js')
-    script(src='javascripts/Comparator/ParametersController.js')
-
-//            .col-md-3
-//                .container-fluid
-//                    .row
-//                        .panel.panel-default
-//                            .panel-heading Providers
-//                            .panel-body
-//                                .container
-//                                    .row
-//                                        .col-md-12
-//                                            div(ng-repeat='provider in providers')
-//                                                .checkbox
-//                                                    label
-//                                                        input(type='checkbox', value='{{provider.id}}', ng-model='provider.state', ng-click='addProvider(provider.id, provider.state)')
-//                                                        {{provider.label}}
+    script(src='javascripts/Comparator/ComparatorController.js')
+    script(src='javascripts/Comparator/ComparatorService.js')

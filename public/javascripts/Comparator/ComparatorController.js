@@ -2,7 +2,7 @@
  * Created by gbmcarlos on 3/2/16.
  */
 
-ComparatorModule.controller('ParametersController', ['$scope', '$http', function($scope, $http) {
+ComparatorModule.controller('ComparatorController', ['$scope', '$http', 'ComparatorService', function($scope, $http, ComparatorService) {
 
     angular.element(document).ready(function () {
         $scope.getResults();
@@ -51,30 +51,14 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             delete params.filter['quickFilter'];
         }
 
-        //if (params.filter.providers.length < 1) {
-        //    delete params.filter.providers;
-        //}
-
         $scope.loading = true;
 
-        $http({
-            method: 'GET',
-            url: '/api-wrapper',
-            params: $scope.requestData
-        }).then(function (response) {
-
-            if (response.status == 200) {
-
-                var data = JSON.parse(JSON.parse(response.data)).data;
-                $scope.count = data.count;
-                $scope.results = data.data;
-                $scope.loading = false;
-            } else {
-                (function() {
-                    console.log('ERROR');
-                })()
-            }
-
+        ComparatorService.getResults(params, function(count, results) {
+            $scope.count = count;
+            $scope.results = results;
+            $scope.loading = false;
+        }, function() {
+            console.log('ERROR');
         });
 
     };
@@ -160,41 +144,6 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             order: 0
         }
     ];
-
-/*
-    $scope.providers = [
-        {
-            label: 'ADCB',
-            id: '543857e688de100000b05978',
-            state: false
-        },
-        {
-            label: 'ADIB',
-            id: '543857e688de100000b059dd',
-            state: false
-        },
-        {
-            label: 'Ajman Bank',
-            id: '543857e788de100000b05afb',
-            state: false
-        },
-        {
-            label: 'Al Hilal Bank',
-            id: '543857e788de100000b05b0b',
-            state: false
-        },
-        {
-            label: 'Al Khaliji France',
-            id: '543857e688de100000b059f9',
-            state: false
-        },
-        {
-            label: 'AMEX',
-            id: '566e6e76b2c18f11375a1cc0',
-            state: false
-        }
-    ];
-*/
 
     $scope.creditCardsTypes = [
         {
