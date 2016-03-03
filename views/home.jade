@@ -1,7 +1,7 @@
 extends layout
 
 block content
-    .container-fluid(ng-app='Comparator', ng-controller='ComparatorController')
+    .container(ng-app='Comparator', ng-controller='ComparatorController')
         .row
             .col-md-3
                 .panel.panel-default
@@ -15,7 +15,7 @@ block content
                                             label
                                                 input(type='checkbox', value='{{quickFilter.value}}', ng-model='quickFilter.state', ng-click='addQuickFilter(quickFilter.value, quickFilter.state)')
                                                 {{quickFilter.label}}
-            .col-md-6
+            .col-md-9.col-lg-6
                 .panel.panel-default
                     .panel-heading Search parameters
                     .panel-body
@@ -43,7 +43,7 @@ block content
                                                 button#sorting.glyphicon.btn.btn-default.dropdown-toggle(ng-class="{'glyphicon-arrow-up': button.order == 1, 'glyphicon-arrow-down': button.order == 2}", ng-click="sorting.sort(index)") {{button.label}}
 
         .row
-            .col-md-6.col-md-offset-3
+            .col-md-9.col-lg-6.col-md-offset-3
                 .container-fluid
                     .row
                         nav(ng-hide='loading')
@@ -65,10 +65,10 @@ block content
                                                     .panel-body
                                                         .container-fluid
                                                             .row
-                                                                .col-xs-6
+                                                                .col-sm-6
                                                                     a(target='_blank', ng-href='{{result.productHomeUrl}}')
-                                                                        img(ng-src='{{result.provider.imageUrl}}')
-                                                                .col-xs-6
+                                                                        img.img-responsive(ng-src='{{result.provider.imageUrl}}')
+                                                                .col-sm-6
                                                                     div
                                                                         a(target='_blank', ng-href='{{result.productHomeUrl}}')
                                                                             {{result.provider.descriptions.name}} {{result.descriptions.name}}
