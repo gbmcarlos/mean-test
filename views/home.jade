@@ -35,8 +35,8 @@ block content
                                         br
                                         button.btn.btn-primary.btn-lg(ng-click='requestData.pageNum=1;getResults()') Search
                             .row
-                                .btn-group(ng-repeat='(index,button) in sorting')
-                                    button#sorting.glyphicon.btn.btn-default.dropdown-toggle(ng-class="{'glyphicon-arrow-up': button.order == 1, 'glyphicon-arrow-down': button.order == 2}", ng-click="sort(index)") {{button.label}}
+                                .btn-group(ng-repeat='(index,button) in sorters')
+                                    button#sorting.glyphicon.btn.btn-default.dropdown-toggle(ng-class="{'glyphicon-arrow-up': button.order == 1, 'glyphicon-arrow-down': button.order == 2}", ng-click="sorting.sort(index)") {{button.label}}
 
         .row
             .col-md-6.col-md-offset-3

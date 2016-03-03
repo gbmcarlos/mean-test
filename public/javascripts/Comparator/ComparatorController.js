@@ -8,6 +8,10 @@ ComparatorModule.controller('ComparatorController', ['$scope', '$http', 'Compara
         $scope.getResults();
     });
 
+    $scope.quickFilters = ComparatorService.get('quickFilters');
+    $scope.sorters = ComparatorService.get('sorters');
+    $scope.creditCardsTypes = ComparatorService.get('creditCardsTypes');
+
     $scope.loading = true;
     $scope.requestData = {
         apiCountry: 'ae',
@@ -63,32 +67,38 @@ ComparatorModule.controller('ComparatorController', ['$scope', '$http', 'Compara
 
     };
 
-    $scope.sort = function(index) {
+    $scope.sorting = {
 
-        if ($scope.sorting[index].order == 1) {
-            $scope.sorting[index].order = 2;
+        sort: function(index) {
+
+            if ($scope.sorters[index].order == 1) {
+                this.sortDown(index);
+            } else {
+                if ($scope.sorters[index].order != 2) {
+                    angular.forEach($scope.sorters, function (value, key) {
+                        value.order = 0;
+                    });
+                }
+                this.sortUp(index);
+            }
+
+            $scope.requestData.filter.sort = $scope.sorters[index].value;
+            $scope.requestData.sort = $scope.sorters[index].value;
+            $scope.getResults();
+
+        },
+
+        sortUp: function(index) {
+            $scope.sorters[index].order = 1;
+            $scope.requestData.order = true;
+            $scope.requestData.filter.order = 'ASC';
+        },
+
+        sortDown: function(index) {
+            $scope.sorters[index].order = 2;
             $scope.requestData.filter.order = 'DESC';
             $scope.requestData.order = false;
-        } else if($scope.sorting[index].order == 2) {
-            $scope.sorting[index].order = 1;
-            $scope.requestData.order = true;
-            $scope.requestData.filter.order = 'ASC';
-        } else {
-
-            angular.forEach($scope.sorting, function(value, key) {
-                value.order = 0;
-            });
-
-            $scope.sorting[index].order = 1;
-            $scope.requestData.order = true;
-            $scope.requestData.filter.order = 'ASC';
-
         }
-
-        $scope.requestData.filter.sort = $scope.sorting[index].value;
-        $scope.requestData.sort = $scope.sorting[index].value;
-
-        $scope.getResults();
 
     };
 
@@ -104,9 +114,6 @@ ComparatorModule.controller('ComparatorController', ['$scope', '$http', 'Compara
 
     };
 
-    $scope.quickFilters = ComparatorService.get('quickFilters');
-    $scope.sorting = ComparatorService.get('sorting');
-    $scope.creditCardsTypes = ComparatorService.get('creditCardsTypes');
 
     $scope.pagesNum = function() {
         return new Array($scope.count > 0 ? Math.floor($scope.count / $scope.requestData.limit) + 1 : 0);

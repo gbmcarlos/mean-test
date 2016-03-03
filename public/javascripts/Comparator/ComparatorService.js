@@ -24,7 +24,7 @@ ComparatorModule.factory('ComparatorService', ['$http', function($http){
             }
         ],
 
-        sorting: [
+        sorters: [
             {
                 label: 'Rate',
                 value: 'interestRate',
