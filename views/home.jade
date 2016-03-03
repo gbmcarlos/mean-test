@@ -33,7 +33,7 @@ block content
                                         label Email address
                                         input.form-control(ng-model='emailAddress', ng-change='requestData.filter.email_address = emailAddress')
                                         br
-                                        button.btn.btn-primary.btn-lg(ng-click='getResults()') Search
+                                        button.btn.btn-primary.btn-lg(ng-click='requestData.pageNum=1;getResults()') Search
                             .row
                                 .btn-group(ng-repeat='(index,button) in sorting')
                                     button#sorting.glyphicon.btn.btn-default.dropdown-toggle(ng-class="{'glyphicon-arrow-up': button.order == 1, 'glyphicon-arrow-down': button.order == 2}", ng-click="sort(index)") {{button.label}}
