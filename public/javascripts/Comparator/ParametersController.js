@@ -37,6 +37,8 @@ ComparatorModule.controller('ParametersController', ['$scope', '$http', function
             $scope.requestData.filter.quickFilter.splice($scope.requestData.filter.quickFilter.indexOf(value), 1);
         }
 
+        $scope.requestData.pageNum = 1;
+
         $scope.getResults();
 
     };
